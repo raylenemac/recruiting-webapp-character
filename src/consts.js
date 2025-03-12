@@ -55,3 +55,6 @@ export const SKILL_LIST = [
     { name: 'Survival', attributeModifier: 'Wisdom' },
 
 ]
+
+export const SKILL_PTS_MODIFIER = 'Intelligence'
+export const ATTR_DEFAULT = 10

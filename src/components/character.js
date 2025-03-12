@@ -1,5 +1,5 @@
 import { useState } from 'react';
-// import './App.css';
+import './Character.css';
 import { ATTRIBUTE_LIST, CLASS_LIST, SKILL_LIST, SKILL_PTS_MODIFIER, ATTR_DEFAULT } from '../consts.js';
 
 const initializeAttributes = () => ATTRIBUTE_LIST.reduce((acc, attr) => ({...acc, [attr]: ATTR_DEFAULT}), {})
@@ -21,10 +21,6 @@ function Character() {
     const newSkills = Object.assign({}, skillValues, {[skill]: newVal})
     setSkillValues(newSkills)
   }
-
-  const eligibleClasses = Object.entries(CLASS_LIST)
-    .filter(([_, minimums]) => Object.entries(minimums).every(([attr, min]) => attributeValues[attr] >= min))
-    .map(([characterClass]) => characterClass)
 
   const modifiers = ATTRIBUTE_LIST.reduce((acc, attr) => {
     const attr_val = attributeValues[attr]
@@ -49,8 +45,9 @@ function Character() {
   })
     
   return (
-    <div>
-      <section className="App-section">
+    <div className='Character-content'>
+      <div className="Character-section">
+        <div> Attributes: </div>
         {ATTRIBUTE_LIST.map(attr => (
           <div>
             {attr}: {attributeValues[attr]} (Modifier: {modifiers[attr]})
@@ -58,16 +55,19 @@ function Character() {
             <button onClick={() => editAttribute(attr, -1)}>-</button>
           </div>
         ))}
-      </section>
-      <section className="App-section">
-        <div> Eligible classes: </div>
-        {eligibleClasses.map(characterClass => (
-          <div>
-            <label onClick={() => setOpenClass(characterClass)}>{characterClass}</label>
-          </div>
-        ))}
-      </section>
-      {openClass && <section className="App-section">
+      </div>
+      <div className="Character-section">
+        <div> Classes: </div>
+        {Object.entries(CLASS_LIST).map(([characterClass, minimums]) => {
+            const isEligible = Object.entries(minimums).every(([attr, min]) => attributeValues[attr] >= min)
+            return <div>
+                <label onClick={() => setOpenClass(characterClass)} className={isEligible ? 'class-eligible' : ''}>
+                    {characterClass}
+                </label>
+            </div>
+            })}
+      </div>
+      {openClass && <div className="Character-section">
         <div> Requirements for {openClass}: </div>
         {Object.entries(CLASS_LIST[openClass]).map(([attr, min]) => (
           <div>
@@ -75,11 +75,11 @@ function Character() {
           </div>
         ))}
         <button onClick={() => setOpenClass(null)}>Close Requirements</button>
-      </section>}
-      <section className="App-section">
+      </div>}
+      <div className="Character-section">
         <div> Maximum skill points: {maxSkillPoints} (Left: {skillPointsLeft})</div>
         {getSkills()}
-      </section>
+      </div>
     </div>
   );
 }

@@ -13,6 +13,10 @@ function App() {
     setAttributeValues(newAttrs)
   }
 
+  const eligibleClasses = Object.entries(CLASS_LIST)
+    .filter(([_, minimums]) => Object.entries(minimums).every(([attr, min]) => attributeValues[attr] >= min))
+    .map(([characterClass]) => characterClass)
+    
   return (
     <div className="App">
       <header className="App-header">
@@ -24,6 +28,13 @@ function App() {
             {attr}: {attributeValues[attr]}
             <button onClick={() => editAttribute(attr, 1)}>+</button>
             <button onClick={() => editAttribute(attr, -1)}>-</button>
+          </div>
+        ))}
+      </section>
+      <section className="App-section">
+        {eligibleClasses.map(characterClass => (
+          <div>
+            {characterClass}
           </div>
         ))}
       </section>

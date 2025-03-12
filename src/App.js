@@ -6,18 +6,26 @@ const initializeAttributes = () => ATTRIBUTE_LIST.reduce((acc, attr) => ({...acc
 
 function App() {
   const [attributeValues, setAttributeValues] = useState(initializeAttributes());
+
+  const editAttribute = (attr, delta) => {
+    const newVal = Math.max(attributeValues[attr] + delta, 0)
+    const newAttrs = Object.assign({}, attributeValues, {[attr]: newVal})
+    setAttributeValues(newAttrs)
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        <h1>React Coding Exercise</h1>
+        <h1>Character Sheets</h1>
       </header>
       <section className="App-section">
-        <div>
-          Value test:
-          {attributeValues.Strength}
-          <button>+</button>
-          <button>-</button>
-        </div>
+        {ATTRIBUTE_LIST.map(attr => (
+          <div>
+            {attr}: {attributeValues[attr]}
+            <button onClick={() => editAttribute(attr, 1)}>+</button>
+            <button onClick={() => editAttribute(attr, -1)}>-</button>
+          </div>
+        ))}
       </section>
     </div>
   );

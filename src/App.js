@@ -6,6 +6,7 @@ const initializeAttributes = () => ATTRIBUTE_LIST.reduce((acc, attr) => ({...acc
 
 function App() {
   const [attributeValues, setAttributeValues] = useState(initializeAttributes());
+  const [openClass, setOpenClass] = useState(null);
 
   const editAttribute = (attr, delta) => {
     const newVal = Math.max(attributeValues[attr] + delta, 0)
@@ -34,10 +35,19 @@ function App() {
       <section className="App-section">
         {eligibleClasses.map(characterClass => (
           <div>
-            {characterClass}
+            <label onClick={() => setOpenClass(characterClass)}>{characterClass}</label>
           </div>
         ))}
       </section>
+      {openClass && <section className="App-section">
+        <div> Requirements for {openClass}: </div>
+        {Object.entries(CLASS_LIST[openClass]).map(([attr, min]) => (
+          <div>
+            {attr}: {min}
+          </div>
+        ))}
+        <button onClick={() => setOpenClass(null)}>Close Requirements</button>
+      </section>}
     </div>
   );
 }

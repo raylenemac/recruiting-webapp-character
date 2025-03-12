@@ -2,9 +2,10 @@ import { useState } from 'react';
 import './App.css';
 import { ATTRIBUTE_LIST, CLASS_LIST, SKILL_LIST } from './consts.js';
 
+const initializeAttributes = () => ATTRIBUTE_LIST.reduce((acc, attr) => ({...acc, [attr]: 10}), {})
 
 function App() {
-  const [num, setNum] = useState<number>(0);
+  const [attributeValues, setAttributeValues] = useState(initializeAttributes());
   return (
     <div className="App">
       <header className="App-header">
@@ -12,8 +13,8 @@ function App() {
       </header>
       <section className="App-section">
         <div>
-          Value:
-          {num}
+          Value test:
+          {attributeValues.Strength}
           <button>+</button>
           <button>-</button>
         </div>

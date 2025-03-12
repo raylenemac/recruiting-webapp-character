@@ -58,3 +58,7 @@ export const SKILL_LIST = [
 
 export const SKILL_PTS_MODIFIER = 'Intelligence'
 export const ATTR_DEFAULT = 10
+export const MAX_ATTR_SUM = 70
+
+const USERNAME = 'rmacdonald'
+export const CHARACTER_URL = `https://recruiting.verylongdomaintotestwith.ca/api/{${USERNAME}}/character`

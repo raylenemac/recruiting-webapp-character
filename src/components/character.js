@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import './Character.css';
-import { ATTRIBUTE_LIST, CLASS_LIST, SKILL_LIST, SKILL_PTS_MODIFIER, ATTR_DEFAULT } from '../consts.js';
+import { ATTRIBUTE_LIST, CLASS_LIST, SKILL_LIST, SKILL_PTS_MODIFIER, ATTR_DEFAULT, MAX_ATTR_SUM } from '../consts.js';
 
 const initializeAttributes = () => ATTRIBUTE_LIST.reduce((acc, attr) => ({...acc, [attr]: ATTR_DEFAULT}), {})
 const initializeSkills = () => SKILL_LIST.reduce((acc, skill) => ({...acc, [skill.name]: 0}), {})
 
-function Character() {
-  const [attributeValues, setAttributeValues] = useState(initializeAttributes());
-  const [skillValues, setSkillValues] = useState(initializeSkills());
+function Character({data, onSave}) {
+  const [attributeValues, setAttributeValues] = useState(data?.attributeValues || initializeAttributes());
+  const [skillValues, setSkillValues] = useState(data?.skillValues || initializeSkills());
   const [openClass, setOpenClass] = useState(null);
 
   const editAttribute = (attr, delta) => {
@@ -32,6 +32,9 @@ function Character() {
   const skillPointsUsed = Object.values(skillValues).reduce((sum, val) => sum+val, 0)
   const skillPointsLeft = maxSkillPoints - skillPointsUsed
 
+  const attrSum = Object.values(attributeValues).reduce((sum, val) => sum+val, 0)
+  const isBelowAttrLimit = attrSum < MAX_ATTR_SUM
+
   const getSkills = () => SKILL_LIST.map(({name, attributeModifier}) => {
     const skillVal = skillValues[name]
     const modifierVal = modifiers[attributeModifier]
@@ -51,7 +54,7 @@ function Character() {
         {ATTRIBUTE_LIST.map(attr => (
           <div>
             {attr}: {attributeValues[attr]} (Modifier: {modifiers[attr]})
-            <button onClick={() => editAttribute(attr, 1)}>+</button>
+            <button disabled={!isBelowAttrLimit} onClick={() => editAttribute(attr, 1)}>+</button>
             <button onClick={() => editAttribute(attr, -1)}>-</button>
           </div>
         ))}
@@ -80,6 +83,7 @@ function Character() {
         <div> Maximum skill points: {maxSkillPoints} (Left: {skillPointsLeft})</div>
         {getSkills()}
       </div>
+      <button onClick={() => onSave({attributeValues, skillValues})}>Save</button>
     </div>
   );
 }

@@ -1,0 +1,14 @@
+.Character-content {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+}
+
+.Character-section {
+  flex: 1 1 0;
+  background-color: hsl(220deg 13% 13%);
+  color: white;
+}
+
+.class-eligible {
+  color: green;
+}

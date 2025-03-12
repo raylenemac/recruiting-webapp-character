@@ -1,5 +1,3 @@
-import type { Attributes, Class } from "./types";
-
 export const ATTRIBUTE_LIST = [
     'Strength',
     'Dexterity',
@@ -9,7 +7,7 @@ export const ATTRIBUTE_LIST = [
     'Charisma',
 ];
 
-export const CLASS_LIST: Record<Class, Attributes> = {
+export const CLASS_LIST = {
     'Barbarian': {
         'Strength': 14,
         'Dexterity': 9,
@@ -57,3 +55,10 @@ export const SKILL_LIST = [
     { name: 'Survival', attributeModifier: 'Wisdom' },
 
 ]
+
+export const SKILL_PTS_MODIFIER = 'Intelligence'
+export const ATTR_DEFAULT = 10
+export const MAX_ATTR_SUM = 70
+
+const USERNAME = 'rmacdonald'
+export const CHARACTER_URL = `https://recruiting.verylongdomaintotestwith.ca/api/{${USERNAME}}/character`
